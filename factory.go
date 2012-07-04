@@ -6,7 +6,6 @@ package d2d
 
 import (
 	"fmt"
-	"github.com/AllenDang/w32"
 	"syscall"
 	"unsafe"
 )
@@ -16,54 +15,87 @@ var (
 	procD2D1CreateFactory = modd2d1.NewProc("D2D1CreateFactory")
 )
 
-type FACTORY_TYPE uint32
+type D2D1_FACTORY_TYPE uint32
 
 const (
 	// The resulting factory and derived resources may only be invoked serially.
 	// Reference counts on resources are interlocked, however, resource and render
 	// target state is not protected from multi-threaded access.
-	FACTORY_TYPE_SINGLE_THREADED FACTORY_TYPE = 0
+	D2D1_FACTORY_TYPE_SINGLE_THREADED D2D1_FACTORY_TYPE = 0
 	// The resulting factory may be invoked from multiple threads. Returned resources
 	// use interlocked reference counting and their state is protected.
-	FACTORY_TYPE_MULTI_THREADED FACTORY_TYPE = 1
+	D2D1_FACTORY_TYPE_MULTI_THREADED D2D1_FACTORY_TYPE = 1
 )
 
 // Indicates the debug level to be outputed by the debug layer.
-type DEBUG_LEVEL uint32
+type D2D1_DEBUG_LEVEL uint32
 
 const (
-	DEBUG_LEVEL_NONE        DEBUG_LEVEL = 0
-	DEBUG_LEVEL_ERROR       DEBUG_LEVEL = 1
-	DEBUG_LEVEL_WARNING     DEBUG_LEVEL = 2
-	DEBUG_LEVEL_INFORMATION DEBUG_LEVEL = 3
+	D2D1_DEBUG_LEVEL_NONE        D2D1_DEBUG_LEVEL = 0
+	D2D1_DEBUG_LEVEL_ERROR       D2D1_DEBUG_LEVEL = 1
+	D2D1_DEBUG_LEVEL_WARNING     D2D1_DEBUG_LEVEL = 2
+	D2D1_DEBUG_LEVEL_INFORMATION D2D1_DEBUG_LEVEL = 3
 )
 
-type FACTORY_OPTIONS struct {
-	DebugLevel DEBUG_LEVEL
+type D2D1_FACTORY_OPTIONS struct {
+	DebugLevel D2D1_DEBUG_LEVEL
 }
 
 var (
 	// Interface ID of ID2D1Factory "06152247-6f50-465a-9245-118bfd3b6007"
-	IID_ID2D1Factory = &w32.GUID{0x06152247, 0x6f50, 0x465a, [8]byte{0x92, 0x45, 0x11, 0x8b, 0xfd, 0x3b, 0x60, 0x07}}
+	IID_ID2D1Factory = GUID{0x06152247, 0x6f50, 0x465a, [8]byte{0x92, 0x45, 0x11, 0x8b, 0xfd, 0x3b, 0x60, 0x07}}
 )
 
-type Factory struct {
-	factory uintptr
+type ID2D1FactoryVtbl struct {
+	IUnknownVtbl
+	pReloadSystemMetrics uintptr
+	pGetDesktopDpi uintptr
+	pCreateRectangleGeometry uintptr
+	pCreateRoundedRectangleGeometry uintptr
+	pCreateEllipseGeometry uintptr
+	pCreateGeometryGroup uintptr
+	pCreateTransformedGeometry uintptr
+	pCreatePathGeometry uintptr
+	pCreateStrokeStyle uintptr
+	pCreateDrawingStateBlock uintptr
+	pCreateWicBitmapRenderTarget uintptr
+	pCreateHwndRenderTarget uintptr
+	pCreateDxgiSurfaceRenderTarget uintptr
+	pCreateDCRenderTarget uintptr
+}
+
+type ID2D1Factory struct {
+	*ID2D1FactoryVtbl
+}
+
+type ID2D1FactoryPtr struct {
+	*ID2D1Factory
+}
+
+func (this ID2D1FactoryPtr) GUID() *GUID {
+	return &IID_ID2D1Factory
+}
+
+func (this ID2D1FactoryPtr) RawPtr() uintptr {
+	return uintptr(unsafe.Pointer(this.ID2D1Factory))
+}
+
+func (this *ID2D1FactoryPtr) SetRawPtr(raw uintptr) {
+	this.ID2D1Factory = (*ID2D1Factory)(unsafe.Pointer(raw))
 }
 
 // CreateFactory creates instance of factory
-func CreateFactory(factoryType FACTORY_TYPE, factoryOption *FACTORY_OPTIONS) (f *Factory, e error) {
+func D2D1CreateFactory(factoryType D2D1_FACTORY_TYPE, factoryOption *D2D1_FACTORY_OPTIONS) (f ID2D1FactoryPtr) {
 	var tmp uintptr
 	ret, _, _ := procD2D1CreateFactory.Call(
 		uintptr(factoryType),
-		uintptr(unsafe.Pointer(IID_ID2D1Factory)),
+		uintptr(unsafe.Pointer(&IID_ID2D1Factory)),
 		uintptr(unsafe.Pointer(factoryOption)),
 		uintptr(unsafe.Pointer(&tmp)))
-	if ret == w32.S_OK {
-		f = new(Factory)
-		f.factory = tmp
+	if ret == S_OK {
+		(&f).SetRawPtr(tmp)
 	} else {
-		e = fmt.Errorf("Fail to create factory: %#x", ret)
+		panic(fmt.Sprintf("Fail to create factory: %#x", ret))
 	}
 	return
 }
