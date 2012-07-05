@@ -48,20 +48,30 @@ var (
 
 type ID2D1FactoryVtbl struct {
 	IUnknownVtbl
-	pReloadSystemMetrics uintptr
-	pGetDesktopDpi uintptr
-	pCreateRectangleGeometry uintptr
+	pReloadSystemMetrics            uintptr
+	pGetDesktopDpi                  uintptr
+	pCreateRectangleGeometry        uintptr
 	pCreateRoundedRectangleGeometry uintptr
-	pCreateEllipseGeometry uintptr
-	pCreateGeometryGroup uintptr
-	pCreateTransformedGeometry uintptr
-	pCreatePathGeometry uintptr
-	pCreateStrokeStyle uintptr
-	pCreateDrawingStateBlock uintptr
-	pCreateWicBitmapRenderTarget uintptr
-	pCreateHwndRenderTarget uintptr
-	pCreateDxgiSurfaceRenderTarget uintptr
-	pCreateDCRenderTarget uintptr
+	pCreateEllipseGeometry          uintptr
+	pCreateGeometryGroup            uintptr
+	pCreateTransformedGeometry      uintptr
+	pCreatePathGeometry             uintptr
+	pCreateStrokeStyle              uintptr
+	pCreateDrawingStateBlock        uintptr
+	pCreateWicBitmapRenderTarget    uintptr
+	pCreateHwndRenderTarget         uintptr
+	pCreateDxgiSurfaceRenderTarget  uintptr
+	pCreateDCRenderTarget           uintptr
+}
+
+func (this *ID2D1FactoryVtbl) GetDesktopDpi(ptr ComObjectPtr) (dpiX, dpiY float32) {
+	_, _, _ = syscall.Syscall(
+		this.pGetDesktopDpi,
+		3,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(&dpiX)),
+		uintptr(unsafe.Pointer(&dpiY)))
+	return
 }
 
 type ID2D1Factory struct {
