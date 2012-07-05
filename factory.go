@@ -18,16 +18,10 @@ var (
 type D2D1_FACTORY_TYPE uint32
 
 const (
-	// The resulting factory and derived resources may only be invoked serially.
-	// Reference counts on resources are interlocked, however, resource and render
-	// target state is not protected from multi-threaded access.
 	D2D1_FACTORY_TYPE_SINGLE_THREADED D2D1_FACTORY_TYPE = 0
-	// The resulting factory may be invoked from multiple threads. Returned resources
-	// use interlocked reference counting and their state is protected.
 	D2D1_FACTORY_TYPE_MULTI_THREADED D2D1_FACTORY_TYPE = 1
 )
 
-// Indicates the debug level to be outputed by the debug layer.
 type D2D1_DEBUG_LEVEL uint32
 
 const (
@@ -42,7 +36,7 @@ type D2D1_FACTORY_OPTIONS struct {
 }
 
 var (
-	// Interface ID of ID2D1Factory "06152247-6f50-465a-9245-118bfd3b6007"
+	// "06152247-6f50-465a-9245-118bfd3b6007"
 	IID_ID2D1Factory = GUID{0x06152247, 0x6f50, 0x465a, [8]byte{0x92, 0x45, 0x11, 0x8b, 0xfd, 0x3b, 0x60, 0x07}}
 )
 
@@ -94,7 +88,6 @@ func (this *ID2D1FactoryPtr) SetRawPtr(raw uintptr) {
 	this.ID2D1Factory = (*ID2D1Factory)(unsafe.Pointer(raw))
 }
 
-// CreateFactory creates instance of factory
 func D2D1CreateFactory(factoryType D2D1_FACTORY_TYPE, factoryOption *D2D1_FACTORY_OPTIONS) (f ID2D1FactoryPtr) {
 	var tmp uintptr
 	ret, _, _ := procD2D1CreateFactory.Call(
