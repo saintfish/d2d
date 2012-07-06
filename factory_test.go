@@ -28,7 +28,13 @@ func TestGetDesktopDpi(t *testing.T) {
 	f := D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, nil)
 	defer f.Release(f)
 	x, y := f.GetDesktopDpi(f)
-	if x ~= 0 || y == 0 {
+	if x == 0 || y == 0 {
 		t.Errorf("Dpi is zero: %f, %f", x, y)
 	}
+}
+
+func TestReloadSystemMetrics(t *testing.T) {
+	f := D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, nil)
+	defer f.Release(f)
+	f.ReloadSystemMetrics(f)
 }

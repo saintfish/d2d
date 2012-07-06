@@ -58,6 +58,18 @@ type ID2D1FactoryVtbl struct {
 	pCreateDCRenderTarget           uintptr
 }
 
+func (this *ID2D1FactoryVtbl) ReloadSystemMetrics(ptr ComObjectPtr) {
+	ret, _, _ := syscall.Syscall(
+		this.pReloadSystemMetrics,
+		1,
+		ptr.RawPtr(),
+		0,
+		0)
+	if ret != S_OK {
+		panic(fmt.Sprintf("Fail to call ReloadSystemMetrics: %#x", ret))
+	}
+}
+
 func (this *ID2D1FactoryVtbl) GetDesktopDpi(ptr ComObjectPtr) (dpiX, dpiY float32) {
 	_, _, _ = syscall.Syscall(
 		this.pGetDesktopDpi,
