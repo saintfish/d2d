@@ -12,7 +12,7 @@ import (
 )
 
 func usage() {
-	fmt.Println("gen <struct> <name>")
+	fmt.Println("gen <struct|enum> <name>")
 }
 
 func main() {
@@ -36,5 +36,7 @@ func main() {
 	switch what {
 	case "struct":
 		p.ParseStruct(b, name)
+	case "enum":
+		p.ParseEnum(b, name)
 	}
 }

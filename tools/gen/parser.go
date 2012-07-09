@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"log"
+	"strings"
 	"text/template"
 )
 
@@ -36,9 +37,9 @@ func CreateCHeaderLexer() RegexpLexer {
 	r.RegisterToken(tt_struct, "struct")
 	r.RegisterToken(tt_interface, "interface")
 	r.RegisterToken(tt_enum, "enum")
-	r.RegisterToken(tt_punct, "[{};=()*]")
+	r.RegisterToken(tt_punct, "[{};=()*,]")
 	r.RegisterToken(tt_id, "[A-Za-z_][A-Za-z0-9_]*")
-	r.RegisterToken(tt_number, "([0-9]+)|(0x[0-9a-fA-F]+)")
+	r.RegisterToken(tt_number, "(0x[0-9a-fA-F]+)|([0-9]+)")
 	return r
 }
 
@@ -50,8 +51,7 @@ func camelName(name string) string {
 		s = s - 'a' + 'A'
 		return string(s) + name[1:]
 	}
-	log.Panicf("Unexpected name: %s", name)
-	return ""
+	return name
 }
 
 type D2DHeaderParser struct {
@@ -83,7 +83,7 @@ type {{.Name}} struct {
 {{range .Field}}	{{.Name}} {{if .IsPointer}}*{{end}}{{.Type}}
 {{end}}}`))
 
-func (s *Struct) String() string {
+func (s Struct) String() string {
 	b := &bytes.Buffer{}
 	structTempl.Execute(b, s)
 	return b.String()
@@ -143,7 +143,77 @@ func (p *D2DHeaderParser) ParseStruct(content []byte, name string) {
 		p.expect(tt_id, name)
 		p.next()
 		p.expect(tt_punct, ";")
-		fmt.Println(&s)
+		fmt.Println(s)
+		return
+	}
+}
+
+type Enum struct {
+	Name string
+	Value []NameValue
+}
+
+type NameValue struct {
+	Name string
+	Value string
+}
+
+var enumTempl = template.Must(template.New("enum").Parse(`
+{{$n := .Name}}type {{$n}} uint32
+const (
+{{range .Value}}	{{.Name}} {{$n}} = {{.Value}}
+{{end}})`))
+
+func (e Enum) String() string {
+	b := &bytes.Buffer{}
+	enumTempl.Execute(b, e)
+	return b.String()
+}
+
+func (p *D2DHeaderParser) ParseEnum(content []byte, name string) {
+	for p.t, p.i, p.c = p.l.Lex(content); p.t != TokenTypeEOF; p.next() {
+		if !p.isToken(tt_typedef, "") {
+			continue
+		}
+		p.next()
+		if !p.isToken(tt_enum, "") {
+			continue
+		}
+		p.next()
+		if !p.isToken(tt_id, name) {
+			continue
+		}
+		var e Enum
+		e.Name = name
+		p.next()
+		if !p.isToken(tt_punct, "{") {
+			continue
+		}
+		p.next()
+		for {
+			p.expect(tt_id, "")
+			var nv NameValue
+			nv.Name = string(p.c)
+			p.next()
+			p.expect(tt_punct, "=")
+			p.next()
+			p.expect(tt_number, "")
+			nv.Value = string(p.c)
+			p.next()
+			if !strings.HasSuffix(nv.Name, "FORCE_DWORD") {
+				e.Value = append(e.Value, nv)
+			}
+			if p.isToken(tt_punct, "}") {
+				break;
+			}
+			p.expect(tt_punct, ",")
+			p.next()
+		}
+		p.next()
+		p.expect(tt_id, name)
+		p.next()
+		p.expect(tt_punct, ";")
+		fmt.Println(e)
 		return
 	}
 }
