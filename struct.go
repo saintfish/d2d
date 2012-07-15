@@ -35,3 +35,14 @@ type D2D_POINT_2F struct {
 }
 
 type D2D1_POINT_2F D2D_POINT_2F
+
+type D2D_MATRIX_3X2_F struct {
+	A11 float32
+	A12 float32
+	A21 float32
+	A22 float32
+	A31 float32
+	A32 float32
+}
+
+type D2D1_MATRIX_3X2_F D2D_MATRIX_3X2_F

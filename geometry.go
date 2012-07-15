@@ -468,3 +468,232 @@ func (this *ID2D1EllipseGeometryVtbl) GetEllipse(
 }
 
 */
+
+// 2cd906a6-12e2-11dc-9fed-001143a055f9
+var IID_ID2D1GeometryGroup = GUID{ 0x2cd906a6, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9} }
+
+type ID2D1GeometryGroupVtbl struct {
+	ID2D1GeometryVtbl
+	pGetFillMode uintptr
+	pGetSourceGeometryCount uintptr
+	pGetSourceGeometries uintptr
+}
+
+type ID2D1GeometryGroup struct {
+	*ID2D1GeometryGroupVtbl
+}
+
+type ID2D1GeometryGroupPtr struct {
+	*ID2D1GeometryGroup
+}
+
+func (this ID2D1GeometryGroupPtr) GUID() *GUID {
+	return &IID_ID2D1GeometryGroup
+}
+
+func (this ID2D1GeometryGroupPtr) RawPtr() uintptr {
+	return uintptr(unsafe.Pointer(this.ID2D1GeometryGroup))
+}
+
+func (this *ID2D1GeometryGroupPtr) SetRawPtr(raw uintptr) {
+	this.ID2D1GeometryGroup = (*ID2D1GeometryGroup)(unsafe.Pointer(raw))
+}
+
+/*
+func (this *ID2D1GeometryGroupVtbl) GetFillMode(
+	ptr ComObjectPtr)
+	(D2D1_FILL_MODE) {
+	var _, _, _ = syscall.Syscall(
+		this.pGetFillMode,
+		1,
+		ptr.RawPtr(),
+		0,
+		0)
+	
+	return
+}
+
+func (this *ID2D1GeometryGroupVtbl) GetSourceGeometryCount(
+	ptr ComObjectPtr)
+	(uint32) {
+	var _, _, _ = syscall.Syscall(
+		this.pGetSourceGeometryCount,
+		1,
+		ptr.RawPtr(),
+		0,
+		0)
+	
+	return
+}
+
+func (this *ID2D1GeometryGroupVtbl) GetSourceGeometries(
+	ptr ComObjectPtr,
+	geometries **ID2D1Geometry,
+	geometriesCount UINT) {
+	var _, _, _ = syscall.Syscall(
+		this.pGetSourceGeometries,
+		3,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(geometries)),
+		uintptr(geometriesCount))
+	
+	return
+}
+
+*/
+
+// 2cd906bb-12e2-11dc-9fed-001143a055f9
+var IID_ID2D1TransformedGeometry = GUID{ 0x2cd906bb, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9} }
+
+type ID2D1TransformedGeometryVtbl struct {
+	ID2D1GeometryVtbl
+	pGetSourceGeometry uintptr
+	pGetTransform uintptr
+}
+
+type ID2D1TransformedGeometry struct {
+	*ID2D1TransformedGeometryVtbl
+}
+
+type ID2D1TransformedGeometryPtr struct {
+	*ID2D1TransformedGeometry
+}
+
+func (this ID2D1TransformedGeometryPtr) GUID() *GUID {
+	return &IID_ID2D1TransformedGeometry
+}
+
+func (this ID2D1TransformedGeometryPtr) RawPtr() uintptr {
+	return uintptr(unsafe.Pointer(this.ID2D1TransformedGeometry))
+}
+
+func (this *ID2D1TransformedGeometryPtr) SetRawPtr(raw uintptr) {
+	this.ID2D1TransformedGeometry = (*ID2D1TransformedGeometry)(unsafe.Pointer(raw))
+}
+
+/*
+func (this *ID2D1TransformedGeometryVtbl) GetSourceGeometry(
+	ptr ComObjectPtr,
+	sourceGeometry **ID2D1Geometry) {
+	var _, _, _ = syscall.Syscall(
+		this.pGetSourceGeometry,
+		2,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(sourceGeometry)),
+		0)
+	
+	return
+}
+
+func (this *ID2D1TransformedGeometryVtbl) GetTransform(
+	ptr ComObjectPtr,
+	transform *D2D1_MATRIX_3X2_F) {
+	var _, _, _ = syscall.Syscall(
+		this.pGetTransform,
+		2,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(transform)),
+		0)
+	
+	return
+}
+
+*/
+
+// 2cd906a5-12e2-11dc-9fed-001143a055f9
+var IID_ID2D1PathGeometry = GUID{ 0x2cd906a5, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9} }
+
+type ID2D1PathGeometryVtbl struct {
+	ID2D1GeometryVtbl
+	pOpen uintptr
+	pStream uintptr
+	pGetSegmentCount uintptr
+	pGetFigureCount uintptr
+}
+
+type ID2D1PathGeometry struct {
+	*ID2D1PathGeometryVtbl
+}
+
+type ID2D1PathGeometryPtr struct {
+	*ID2D1PathGeometry
+}
+
+func (this ID2D1PathGeometryPtr) GUID() *GUID {
+	return &IID_ID2D1PathGeometry
+}
+
+func (this ID2D1PathGeometryPtr) RawPtr() uintptr {
+	return uintptr(unsafe.Pointer(this.ID2D1PathGeometry))
+}
+
+func (this *ID2D1PathGeometryPtr) SetRawPtr(raw uintptr) {
+	this.ID2D1PathGeometry = (*ID2D1PathGeometry)(unsafe.Pointer(raw))
+}
+
+/*
+func (this *ID2D1PathGeometryVtbl) Open(
+	ptr ComObjectPtr,
+	geometrySink **ID2D1GeometrySink)
+	(HRESULT) {
+	var ret, _, _ = syscall.Syscall(
+		this.pOpen,
+		2,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(geometrySink)),
+		0)
+	if ret != S_OK {
+		panic(fmt.Sprintf("Fail to call Open: %#x", ret))
+	}
+	return
+}
+
+func (this *ID2D1PathGeometryVtbl) Stream(
+	ptr ComObjectPtr,
+	geometrySink *ID2D1GeometrySink)
+	(HRESULT) {
+	var ret, _, _ = syscall.Syscall(
+		this.pStream,
+		2,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(geometrySink)),
+		0)
+	if ret != S_OK {
+		panic(fmt.Sprintf("Fail to call Stream: %#x", ret))
+	}
+	return
+}
+
+func (this *ID2D1PathGeometryVtbl) GetSegmentCount(
+	ptr ComObjectPtr,
+	count *uint32)
+	(HRESULT) {
+	var ret, _, _ = syscall.Syscall(
+		this.pGetSegmentCount,
+		2,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(count)),
+		0)
+	if ret != S_OK {
+		panic(fmt.Sprintf("Fail to call GetSegmentCount: %#x", ret))
+	}
+	return
+}
+
+func (this *ID2D1PathGeometryVtbl) GetFigureCount(
+	ptr ComObjectPtr,
+	count *uint32)
+	(HRESULT) {
+	var ret, _, _ = syscall.Syscall(
+		this.pGetFigureCount,
+		2,
+		ptr.RawPtr(),
+		uintptr(unsafe.Pointer(count)),
+		0)
+	if ret != S_OK {
+		panic(fmt.Sprintf("Fail to call GetFigureCount: %#x", ret))
+	}
+	return
+}
+
+*/

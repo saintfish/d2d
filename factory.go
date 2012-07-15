@@ -130,66 +130,68 @@ func (this *ID2D1FactoryVtbl) CreateEllipseGeometry(
 	return
 }
 
-/*
 func (this *ID2D1FactoryVtbl) CreateGeometryGroup(
 	ptr ComObjectPtr,
 	fillMode D2D1_FILL_MODE,
-	geometries **ID2D1Geometry,
-	geometriesCount UINT,
-	geometryGroup **ID2D1GeometryGroup)
-	(HRESULT) {
+	geometries []ID2D1GeometryPtr) (
+	geometryGroup ID2D1GeometryGroupPtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall6(
 		this.pCreateGeometryGroup,
 		5,
 		ptr.RawPtr(),
 		uintptr(fillMode),
-		uintptr(unsafe.Pointer(geometries)),
-		uintptr(geometriesCount),
-		uintptr(unsafe.Pointer(geometryGroup)),
+		uintptr(unsafe.Pointer(&(geometries[0]))),
+		uintptr(uint32(len(geometries))),
+		uintptr(unsafe.Pointer(out)),
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreateGeometryGroup: %#x", ret))
 	}
+	(&geometryGroup).SetRawPtr(out)
 	return
 }
 
 func (this *ID2D1FactoryVtbl) CreateTransformedGeometry(
 	ptr ComObjectPtr,
 	sourceGeometry *ID2D1Geometry,
-	transform *D2D1_MATRIX_3X2_F,
-	transformedGeometry **ID2D1TransformedGeometry)
-	(HRESULT) {
+	transform *D2D1_MATRIX_3X2_F) (
+	transformedGeometry ID2D1TransformedGeometryPtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall6(
 		this.pCreateTransformedGeometry,
 		4,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(sourceGeometry)),
 		uintptr(unsafe.Pointer(transform)),
-		uintptr(unsafe.Pointer(transformedGeometry)),
+		uintptr(unsafe.Pointer(&out)),
 		0,
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreateTransformedGeometry: %#x", ret))
 	}
+	(&transformedGeometry).SetRawPtr(out)
 	return
 }
 
 func (this *ID2D1FactoryVtbl) CreatePathGeometry(
-	ptr ComObjectPtr,
-	pathGeometry **ID2D1PathGeometry)
-	(HRESULT) {
+	ptr ComObjectPtr) (
+	pathGeometry ID2D1PathGeometryPtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall(
 		this.pCreatePathGeometry,
 		2,
 		ptr.RawPtr(),
-		uintptr(unsafe.Pointer(pathGeometry)),
+		uintptr(unsafe.Pointer(&out)),
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreatePathGeometry: %#x", ret))
 	}
+	(&pathGeometry).SetRawPtr(out)
 	return
 }
 
+/*
 func (this *ID2D1FactoryVtbl) CreateStrokeStyle(
 	ptr ComObjectPtr,
 	strokeStyleProperties *D2D1_STROKE_STYLE_PROPERTIES,
