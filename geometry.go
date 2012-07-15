@@ -5,6 +5,8 @@
 package d2d
 
 import (
+	"fmt"
+	"syscall"
 	"unsafe"
 )
 
@@ -48,18 +50,16 @@ func (this *ID2D1GeometryPtr) SetRawPtr(raw uintptr) {
 	this.ID2D1Geometry = (*ID2D1Geometry)(unsafe.Pointer(raw))
 }
 
-/*
 func (this *ID2D1GeometryVtbl) GetBounds(
 	ptr ComObjectPtr,
-	worldTransform *D2D1_MATRIX_3X2_F,
-	bounds *D2D1_RECT_F)
-	(HRESULT) {
+	worldTransform *D2D1_MATRIX_3X2_F) (
+	bounds D2D1_RECT_F) {
 	var ret, _, _ = syscall.Syscall(
 		this.pGetBounds,
 		3,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(worldTransform)),
-		uintptr(unsafe.Pointer(bounds)))
+		uintptr(unsafe.Pointer(&bounds)))
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call GetBounds: %#x", ret))
 	}
@@ -71,18 +71,17 @@ func (this *ID2D1GeometryVtbl) GetWidenedBounds(
 	strokeWidth float32,
 	strokeStyle *ID2D1StrokeStyle,
 	worldTransform *D2D1_MATRIX_3X2_F,
-	flatteningTolerance float32,
-	bounds *D2D1_RECT_F)
-	(HRESULT) {
+	flatteningTolerance float32) (
+	bounds D2D1_RECT_F) {
 	var ret, _, _ = syscall.Syscall6(
 		this.pGetWidenedBounds,
 		6,
 		ptr.RawPtr(),
-		uintptr(strokeWidth),
+		uintptr(*(*uintptr)(unsafe.Pointer(&strokeWidth))),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		uintptr(unsafe.Pointer(worldTransform)),
-		uintptr(flatteningTolerance),
-		uintptr(unsafe.Pointer(bounds)))
+		uintptr(*(*uintptr)(unsafe.Pointer(&flatteningTolerance))),
+		uintptr(unsafe.Pointer(&bounds)))
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call GetWidenedBounds: %#x", ret))
 	}
@@ -95,20 +94,18 @@ func (this *ID2D1GeometryVtbl) StrokeContainsPoint(
 	strokeWidth float32,
 	strokeStyle *ID2D1StrokeStyle,
 	worldTransform *D2D1_MATRIX_3X2_F,
-	flatteningTolerance float32,
-	contains *BOOL)
-	(HRESULT) {
+	flatteningTolerance float32) (contains bool) {
 	var ret, _, _ = syscall.Syscall9(
 		this.pStrokeContainsPoint,
-		7,
+		8,
 		ptr.RawPtr(),
-		uintptr(point),
-		uintptr(strokeWidth),
+		uintptr(*(*uintptr)(unsafe.Pointer(&point.X))),
+		uintptr(*(*uintptr)(unsafe.Pointer(&point.Y))),
+		uintptr(*(*uintptr)(unsafe.Pointer(&strokeWidth))),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		uintptr(unsafe.Pointer(worldTransform)),
-		uintptr(flatteningTolerance),
-		uintptr(unsafe.Pointer(contains)),
-		0,
+		uintptr(*(*uintptr)(unsafe.Pointer(&flatteningTolerance))),
+		uintptr(unsafe.Pointer(&contains)),
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call StrokeContainsPoint: %#x", ret))
@@ -116,6 +113,7 @@ func (this *ID2D1GeometryVtbl) StrokeContainsPoint(
 	return
 }
 
+/*
 func (this *ID2D1GeometryVtbl) FillContainsPoint(
 	ptr ComObjectPtr,
 	point D2D1_POINT_2F,
