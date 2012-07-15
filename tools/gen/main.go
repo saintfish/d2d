@@ -38,5 +38,7 @@ func main() {
 		p.ParseStruct(b, name)
 	case "enum":
 		p.ParseEnum(b, name)
+	case "interface":
+		p.ParseInterface(b, name)
 	}
 }
