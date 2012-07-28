@@ -17,6 +17,13 @@ type D2D_RECT_F struct {
 
 type D2D1_RECT_F D2D_RECT_F
 
+type D2D_SIZE_F struct {
+	Width float32
+	Height float32
+}
+
+type D2D1_SIZE_F D2D_SIZE_F
+
 type D2D1_ROUNDED_RECT struct {
 	Rect    D2D1_RECT_F
 	RadiusX float32
@@ -52,3 +59,23 @@ type D2D1_TRIANGLE struct {
 	Point2 D2D1_POINT_2F
 	Point3 D2D1_POINT_2F
 }
+
+type D2D1_BEZIER_SEGMENT struct {
+	Point1 D2D1_POINT_2F
+	Point2 D2D1_POINT_2F
+	Point3 D2D1_POINT_2F
+}
+
+type D2D1_QUADRATIC_BEZIER_SEGMENT struct {
+	Point1 D2D1_POINT_2F
+	Point2 D2D1_POINT_2F
+}
+
+type D2D1_ARC_SEGMENT struct {
+	Point D2D1_POINT_2F
+	Size D2D1_SIZE_F
+	RotationAngle float32
+	SweepDirection D2D1_SWEEP_DIRECTION
+	ArcSize D2D1_ARC_SIZE
+}
+

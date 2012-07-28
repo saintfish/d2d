@@ -99,9 +99,9 @@ func (this *ID2D1GeometryVtbl) StrokeContainsPoint(
 		this.pStrokeContainsPoint,
 		8,
 		ptr.RawPtr(),
-		uintptr(*(*uintptr)(unsafe.Pointer(&point.X))),
-		uintptr(*(*uintptr)(unsafe.Pointer(&point.Y))),
-		uintptr(*(*uintptr)(unsafe.Pointer(&strokeWidth))),
+		*(*uintptr)(unsafe.Pointer(&point.X)),
+		*(*uintptr)(unsafe.Pointer(&point.Y)),
+		*(*uintptr)(unsafe.Pointer(&strokeWidth)),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		uintptr(unsafe.Pointer(worldTransform)),
 		*(*uintptr)(unsafe.Pointer(&flatteningTolerance)),
@@ -122,8 +122,8 @@ func (this *ID2D1GeometryVtbl) FillContainsPoint(
 		this.pFillContainsPoint,
 		6,
 		ptr.RawPtr(),
-		uintptr(*(*uintptr)(unsafe.Pointer(&point.X))),
-		uintptr(*(*uintptr)(unsafe.Pointer(&point.Y))),
+		*(*uintptr)(unsafe.Pointer(&point.X)),
+		*(*uintptr)(unsafe.Pointer(&point.Y)),
 		uintptr(unsafe.Pointer(worldTransform)),
 		*(*uintptr)(unsafe.Pointer(&flatteningTolerance)),
 		uintptr(unsafe.Pointer(&contains)))
@@ -682,7 +682,6 @@ func (this *ID2D1SimplifiedGeometrySinkPtr) SetRawPtr(raw uintptr) {
 	this.ID2D1SimplifiedGeometrySink = (*ID2D1SimplifiedGeometrySink)(unsafe.Pointer(raw))
 }
 
-/*
 func (this *ID2D1SimplifiedGeometrySinkVtbl) SetFillMode(
 	ptr ComObjectPtr,
 	fillMode D2D1_FILL_MODE) {
@@ -713,25 +712,28 @@ func (this *ID2D1SimplifiedGeometrySinkVtbl) BeginFigure(
 	ptr ComObjectPtr,
 	startPoint D2D1_POINT_2F,
 	figureBegin D2D1_FIGURE_BEGIN) {
-	var _, _, _ = syscall.Syscall(
+	var _, _, _ = syscall.Syscall6(
 		this.pBeginFigure,
-		3,
+		4,
 		ptr.RawPtr(),
-		uintptr(startPoint),
-		uintptr(figureBegin))
+		*(*uintptr)(unsafe.Pointer(&startPoint.X)),
+		*(*uintptr)(unsafe.Pointer(&startPoint.Y)),
+		uintptr(figureBegin),
+		0,
+		0)
 
 	return
 }
 
 func (this *ID2D1SimplifiedGeometrySinkVtbl) AddLines(
 	ptr ComObjectPtr,
-	points *D2D1_POINT_2F,
-	pointsCount UINT) {
+	points []D2D1_POINT_2F) {
+	var pointsCount uint32 = uint32(len(points))
 	var _, _, _ = syscall.Syscall(
 		this.pAddLines,
 		3,
 		ptr.RawPtr(),
-		uintptr(unsafe.Pointer(points)),
+		uintptr(unsafe.Pointer(&points[0])),
 		uintptr(pointsCount))
 
 	return
@@ -739,13 +741,13 @@ func (this *ID2D1SimplifiedGeometrySinkVtbl) AddLines(
 
 func (this *ID2D1SimplifiedGeometrySinkVtbl) AddBeziers(
 	ptr ComObjectPtr,
-	beziers *D2D1_BEZIER_SEGMENT,
-	beziersCount UINT) {
+	beziers []D2D1_BEZIER_SEGMENT) {
+	var beziersCount uint32 = uint32(len(beziers))
 	var _, _, _ = syscall.Syscall(
 		this.pAddBeziers,
 		3,
 		ptr.RawPtr(),
-		uintptr(unsafe.Pointer(beziers)),
+		uintptr(unsafe.Pointer(&beziers[0])),
 		uintptr(beziersCount))
 
 	return
@@ -765,8 +767,7 @@ func (this *ID2D1SimplifiedGeometrySinkVtbl) EndFigure(
 }
 
 func (this *ID2D1SimplifiedGeometrySinkVtbl) Close(
-	ptr ComObjectPtr)
-	(HRESULT) {
+	ptr ComObjectPtr) {
 	var ret, _, _ = syscall.Syscall(
 		this.pClose,
 		1,
@@ -779,7 +780,6 @@ func (this *ID2D1SimplifiedGeometrySinkVtbl) Close(
 	return
 }
 
-*/
 
 // 2cd906c1-12e2-11dc-9fed-001143a055f9
 var IID_ID2D1TessellationSink = GUID{0x2cd906c1, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9}}
@@ -812,13 +812,13 @@ func (this *ID2D1TessellationSinkPtr) SetRawPtr(raw uintptr) {
 
 func (this *ID2D1TessellationSinkVtbl) AddTriangles(
 	ptr ComObjectPtr,
-	triangles *D2D1_TRIANGLE,
-	trianglesCount uint32) {
+	triangles []D2D1_TRIANGLE) {
+	var trianglesCount uint32 = uint32(len(triangles))
 	var _, _, _ = syscall.Syscall(
 		this.pAddTriangles,
 		3,
 		ptr.RawPtr(),
-		uintptr(unsafe.Pointer(triangles)),
+		uintptr(unsafe.Pointer(&triangles[0])),
 		uintptr(trianglesCount))
 
 	return
@@ -870,16 +870,15 @@ func (this *ID2D1GeometrySinkPtr) SetRawPtr(raw uintptr) {
 	this.ID2D1GeometrySink = (*ID2D1GeometrySink)(unsafe.Pointer(raw))
 }
 
-/*
 func (this *ID2D1GeometrySinkVtbl) AddLine(
 	ptr ComObjectPtr,
 	point D2D1_POINT_2F) {
 	var _, _, _ = syscall.Syscall(
 		this.pAddLine,
-		2,
+		3,
 		ptr.RawPtr(),
-		uintptr(point),
-		0)
+		*(*uintptr)(unsafe.Pointer(&point.X)),
+		*(*uintptr)(unsafe.Pointer(&point.Y)))
 
 	return
 }
@@ -912,13 +911,13 @@ func (this *ID2D1GeometrySinkVtbl) AddQuadraticBezier(
 
 func (this *ID2D1GeometrySinkVtbl) AddQuadraticBeziers(
 	ptr ComObjectPtr,
-	beziers *D2D1_QUADRATIC_BEZIER_SEGMENT,
-	beziersCount UINT) {
+	beziers []D2D1_QUADRATIC_BEZIER_SEGMENT) {
+	var beziersCount uint32 = uint32(len(beziers))
 	var _, _, _ = syscall.Syscall(
 		this.pAddQuadraticBeziers,
 		3,
 		ptr.RawPtr(),
-		uintptr(unsafe.Pointer(beziers)),
+		uintptr(unsafe.Pointer(&beziers[0])),
 		uintptr(beziersCount))
 
 	return
@@ -937,4 +936,3 @@ func (this *ID2D1GeometrySinkVtbl) AddArc(
 	return
 }
 
-*/
