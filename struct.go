@@ -46,3 +46,9 @@ type D2D_MATRIX_3X2_F struct {
 }
 
 type D2D1_MATRIX_3X2_F D2D_MATRIX_3X2_F
+
+type D2D1_TRIANGLE struct {
+	Point1 D2D1_POINT_2F
+	Point2 D2D1_POINT_2F
+	Point3 D2D1_POINT_2F
+}

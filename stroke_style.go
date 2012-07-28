@@ -10,19 +10,19 @@ import (
 )
 
 // 2cd9069d-12e2-11dc-9fed-001143a055f9
-var IID_ID2D1StrokeStyle = GUID{ 0x2cd9069d, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9} }
+var IID_ID2D1StrokeStyle = GUID{0x2cd9069d, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9}}
 
 type ID2D1StrokeStyleVtbl struct {
 	ID2D1ResourceVtbl
-	pGetStartCap uintptr
-	pGetEndCap uintptr
-	pGetDashCap uintptr
-	pGetMiterLimit uintptr
-	pGetLineJoin uintptr
-	pGetDashOffset uintptr
-	pGetDashStyle uintptr
+	pGetStartCap    uintptr
+	pGetEndCap      uintptr
+	pGetDashCap     uintptr
+	pGetMiterLimit  uintptr
+	pGetLineJoin    uintptr
+	pGetDashOffset  uintptr
+	pGetDashStyle   uintptr
 	pGetDashesCount uintptr
-	pGetDashes uintptr
+	pGetDashes      uintptr
 }
 
 type ID2D1StrokeStyle struct {
