@@ -18,7 +18,7 @@ type D2D_RECT_F struct {
 type D2D1_RECT_F D2D_RECT_F
 
 type D2D_SIZE_F struct {
-	Width float32
+	Width  float32
 	Height float32
 }
 
@@ -72,10 +72,9 @@ type D2D1_QUADRATIC_BEZIER_SEGMENT struct {
 }
 
 type D2D1_ARC_SEGMENT struct {
-	Point D2D1_POINT_2F
-	Size D2D1_SIZE_F
-	RotationAngle float32
+	Point          D2D1_POINT_2F
+	Size           D2D1_SIZE_F
+	RotationAngle  float32
 	SweepDirection D2D1_SWEEP_DIRECTION
-	ArcSize D2D1_ARC_SIZE
+	ArcSize        D2D1_ARC_SIZE
 }
-
