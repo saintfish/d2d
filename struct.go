@@ -78,3 +78,21 @@ type D2D1_ARC_SEGMENT struct {
 	SweepDirection D2D1_SWEEP_DIRECTION
 	ArcSize        D2D1_ARC_SIZE
 }
+
+type D2D1_STROKE_STYLE_PROPERTIES struct {
+	StartCap   D2D1_CAP_STYLE
+	EndCap     D2D1_CAP_STYLE
+	DashCap    D2D1_CAP_STYLE
+	LineJoin   D2D1_LINE_JOIN
+	MiterLimit float32
+	DashStyle  D2D1_DASH_STYLE
+	DashOffset float32
+}
+
+type D2D1_DRAWING_STATE_DESCRIPTION struct {
+	AntialiasMode     D2D1_ANTIALIAS_MODE
+	TextAntialiasMode D2D1_TEXT_ANTIALIAS_MODE
+	Tag1              D2D1_TAG
+	Tag2              D2D1_TAG
+	Transform         D2D1_MATRIX_3X2_F
+}

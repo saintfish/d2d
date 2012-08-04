@@ -191,50 +191,50 @@ func (this *ID2D1FactoryVtbl) CreatePathGeometry(
 	return
 }
 
-/*
 func (this *ID2D1FactoryVtbl) CreateStrokeStyle(
 	ptr ComObjectPtr,
 	strokeStyleProperties *D2D1_STROKE_STYLE_PROPERTIES,
-	dashes *float32,
-	dashesCount UINT,
-	strokeStyle **ID2D1StrokeStyle)
-	(HRESULT) {
+	dashes []float32) (strokeStyle ID2D1StrokeStylePtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall6(
 		this.pCreateStrokeStyle,
 		5,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(strokeStyleProperties)),
-		uintptr(unsafe.Pointer(dashes)),
-		uintptr(dashesCount),
-		uintptr(unsafe.Pointer(strokeStyle)),
+		uintptr(unsafe.Pointer(&dashes[0])),
+		uintptr(len(dashes)),
+		uintptr(unsafe.Pointer(&out)),
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreateStrokeStyle: %#x", ret))
 	}
+	(&strokeStyle).SetRawPtr(out)
 	return
 }
 
 func (this *ID2D1FactoryVtbl) CreateDrawingStateBlock(
 	ptr ComObjectPtr,
 	drawingStateDescription *D2D1_DRAWING_STATE_DESCRIPTION,
-	textRenderingParams *IDWriteRenderingParams,
-	drawingStateBlock **ID2D1DrawingStateBlock)
-	(HRESULT) {
+	// *IDWriteRenderingParams
+	textRenderingParams unsafe.Pointer) (drawingStateBlock ID2D1DrawingStateBlockPtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall6(
 		this.pCreateDrawingStateBlock,
 		4,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(drawingStateDescription)),
-		uintptr(unsafe.Pointer(textRenderingParams)),
-		uintptr(unsafe.Pointer(drawingStateBlock)),
+		uintptr(textRenderingParams),
+		uintptr(unsafe.Pointer(&out)),
 		0,
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreateDrawingStateBlock: %#x", ret))
 	}
+	(&drawingStateBlock).SetRawPtr(out)
 	return
 }
 
+/*
 func (this *ID2D1FactoryVtbl) CreateWicBitmapRenderTarget(
 	ptr ComObjectPtr,
 	target *IWICBitmap,
