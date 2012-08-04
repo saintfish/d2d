@@ -1,4 +1,4 @@
-cat D2DBaseTypes.h D2D1.h | \
+cat D2DBaseTypes.h D2D1.h DXGIFormat.h | \
 	grep -v "^#include.*$" | \
 	gcc -E -xc -D__cplusplus - | \
 	grep -v "^\s*$" | \

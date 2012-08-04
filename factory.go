@@ -255,28 +255,31 @@ func (this *ID2D1FactoryVtbl) CreateWicBitmapRenderTarget(
 	}
 	return
 }
+*/
 
 func (this *ID2D1FactoryVtbl) CreateHwndRenderTarget(
 	ptr ComObjectPtr,
 	renderTargetProperties *D2D1_RENDER_TARGET_PROPERTIES,
-	hwndRenderTargetProperties *D2D1_HWND_RENDER_TARGET_PROPERTIES,
-	hwndRenderTarget **ID2D1HwndRenderTarget)
-	(HRESULT) {
+	hwndRenderTargetProperties *D2D1_HWND_RENDER_TARGET_PROPERTIES) (
+	hwndRenderTarget ID2D1HwndRenderTargetPtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall6(
 		this.pCreateHwndRenderTarget,
 		4,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(renderTargetProperties)),
 		uintptr(unsafe.Pointer(hwndRenderTargetProperties)),
-		uintptr(unsafe.Pointer(hwndRenderTarget)),
+		uintptr(unsafe.Pointer(&out)),
 		0,
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreateHwndRenderTarget: %#x", ret))
 	}
+	(&hwndRenderTarget).SetRawPtr(out)
 	return
 }
 
+/*
 func (this *ID2D1FactoryVtbl) CreateDxgiSurfaceRenderTarget(
 	ptr ComObjectPtr,
 	dxgiSurface *IDXGISurface,

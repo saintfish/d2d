@@ -9,63 +9,63 @@ import (
 )
 
 // 2cd90694-12e2-11dc-9fed-001143a055f9
-var IID_ID2D1RenderTarget = GUID{ 0x2cd90694, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9} }
+var IID_ID2D1RenderTarget = GUID{0x2cd90694, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9}}
 
 type ID2D1RenderTargetVtbl struct {
 	ID2D1ResourceVtbl
-	pCreateBitmap uintptr
-	pCreateBitmapFromWicBitmap uintptr
-	pCreateSharedBitmap uintptr
-	pCreateBitmapBrush uintptr
-	pCreateSolidColorBrush uintptr
+	pCreateBitmap                 uintptr
+	pCreateBitmapFromWicBitmap    uintptr
+	pCreateSharedBitmap           uintptr
+	pCreateBitmapBrush            uintptr
+	pCreateSolidColorBrush        uintptr
 	pCreateGradientStopCollection uintptr
-	pCreateLinearGradientBrush uintptr
-	pCreateRadialGradientBrush uintptr
+	pCreateLinearGradientBrush    uintptr
+	pCreateRadialGradientBrush    uintptr
 	pCreateCompatibleRenderTarget uintptr
-	pCreateLayer uintptr
-	pCreateMesh uintptr
-	pDrawLine uintptr
-	pDrawRectangle uintptr
-	pFillRectangle uintptr
-	pDrawRoundedRectangle uintptr
-	pFillRoundedRectangle uintptr
-	pDrawEllipse uintptr
-	pFillEllipse uintptr
-	pDrawGeometry uintptr
-	pFillGeometry uintptr
-	pFillMesh uintptr
-	pFillOpacityMask uintptr
-	pDrawBitmap uintptr
-	pDrawText uintptr
-	pDrawTextLayout uintptr
-	pDrawGlyphRun uintptr
-	pSetTransform uintptr
-	pGetTransform uintptr
-	pSetAntialiasMode uintptr
-	pGetAntialiasMode uintptr
-	pSetTextAntialiasMode uintptr
-	pGetTextAntialiasMode uintptr
-	pSetTextRenderingParams uintptr
-	pGetTextRenderingParams uintptr
-	pSetTags uintptr
-	pGetTags uintptr
-	pPushLayer uintptr
-	pPopLayer uintptr
-	pFlush uintptr
-	pSaveDrawingState uintptr
-	pRestoreDrawingState uintptr
-	pPushAxisAlignedClip uintptr
-	pPopAxisAlignedClip uintptr
-	pClear uintptr
-	pBeginDraw uintptr
-	pEndDraw uintptr
-	pGetPixelFormat uintptr
-	pSetDpi uintptr
-	pGetDpi uintptr
-	pGetSize uintptr
-	pGetPixelSize uintptr
-	pGetMaximumBitmapSize uintptr
-	pIsSupported uintptr
+	pCreateLayer                  uintptr
+	pCreateMesh                   uintptr
+	pDrawLine                     uintptr
+	pDrawRectangle                uintptr
+	pFillRectangle                uintptr
+	pDrawRoundedRectangle         uintptr
+	pFillRoundedRectangle         uintptr
+	pDrawEllipse                  uintptr
+	pFillEllipse                  uintptr
+	pDrawGeometry                 uintptr
+	pFillGeometry                 uintptr
+	pFillMesh                     uintptr
+	pFillOpacityMask              uintptr
+	pDrawBitmap                   uintptr
+	pDrawText                     uintptr
+	pDrawTextLayout               uintptr
+	pDrawGlyphRun                 uintptr
+	pSetTransform                 uintptr
+	pGetTransform                 uintptr
+	pSetAntialiasMode             uintptr
+	pGetAntialiasMode             uintptr
+	pSetTextAntialiasMode         uintptr
+	pGetTextAntialiasMode         uintptr
+	pSetTextRenderingParams       uintptr
+	pGetTextRenderingParams       uintptr
+	pSetTags                      uintptr
+	pGetTags                      uintptr
+	pPushLayer                    uintptr
+	pPopLayer                     uintptr
+	pFlush                        uintptr
+	pSaveDrawingState             uintptr
+	pRestoreDrawingState          uintptr
+	pPushAxisAlignedClip          uintptr
+	pPopAxisAlignedClip           uintptr
+	pClear                        uintptr
+	pBeginDraw                    uintptr
+	pEndDraw                      uintptr
+	pGetPixelFormat               uintptr
+	pSetDpi                       uintptr
+	pGetDpi                       uintptr
+	pGetSize                      uintptr
+	pGetPixelSize                 uintptr
+	pGetMaximumBitmapSize         uintptr
+	pIsSupported                  uintptr
 }
 
 type ID2D1RenderTarget struct {
@@ -337,7 +337,7 @@ func (this *ID2D1RenderTargetVtbl) DrawLine(
 		uintptr(unsafe.Pointer(brush)),
 		uintptr(strokeWidth),
 		uintptr(unsafe.Pointer(strokeStyle)))
-	
+
 	return
 }
 
@@ -356,7 +356,7 @@ func (this *ID2D1RenderTargetVtbl) DrawRectangle(
 		uintptr(strokeWidth),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		0)
-	
+
 	return
 }
 
@@ -370,7 +370,7 @@ func (this *ID2D1RenderTargetVtbl) FillRectangle(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(rect)),
 		uintptr(unsafe.Pointer(brush)))
-	
+
 	return
 }
 
@@ -389,7 +389,7 @@ func (this *ID2D1RenderTargetVtbl) DrawRoundedRectangle(
 		uintptr(strokeWidth),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		0)
-	
+
 	return
 }
 
@@ -403,7 +403,7 @@ func (this *ID2D1RenderTargetVtbl) FillRoundedRectangle(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(roundedRect)),
 		uintptr(unsafe.Pointer(brush)))
-	
+
 	return
 }
 
@@ -422,7 +422,7 @@ func (this *ID2D1RenderTargetVtbl) DrawEllipse(
 		uintptr(strokeWidth),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		0)
-	
+
 	return
 }
 
@@ -436,7 +436,7 @@ func (this *ID2D1RenderTargetVtbl) FillEllipse(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(ellipse)),
 		uintptr(unsafe.Pointer(brush)))
-	
+
 	return
 }
 
@@ -455,7 +455,7 @@ func (this *ID2D1RenderTargetVtbl) DrawGeometry(
 		uintptr(strokeWidth),
 		uintptr(unsafe.Pointer(strokeStyle)),
 		0)
-	
+
 	return
 }
 
@@ -473,7 +473,7 @@ func (this *ID2D1RenderTargetVtbl) FillGeometry(
 		uintptr(unsafe.Pointer(opacityBrush)),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -487,7 +487,7 @@ func (this *ID2D1RenderTargetVtbl) FillMesh(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(mesh)),
 		uintptr(unsafe.Pointer(brush)))
-	
+
 	return
 }
 
@@ -507,7 +507,7 @@ func (this *ID2D1RenderTargetVtbl) FillOpacityMask(
 		uintptr(content),
 		uintptr(unsafe.Pointer(destinationRectangle)),
 		uintptr(unsafe.Pointer(sourceRectangle)))
-	
+
 	return
 }
 
@@ -527,7 +527,7 @@ func (this *ID2D1RenderTargetVtbl) DrawBitmap(
 		uintptr(opacity),
 		uintptr(interpolationMode),
 		uintptr(unsafe.Pointer(sourceRectangle)))
-	
+
 	return
 }
 
@@ -552,7 +552,7 @@ func (this *ID2D1RenderTargetVtbl) DrawText(
 		uintptr(options),
 		uintptr(measuringMode),
 		0)
-	
+
 	return
 }
 
@@ -571,7 +571,7 @@ func (this *ID2D1RenderTargetVtbl) DrawTextLayout(
 		uintptr(unsafe.Pointer(defaultForegroundBrush)),
 		uintptr(options),
 		0)
-	
+
 	return
 }
 
@@ -590,7 +590,7 @@ func (this *ID2D1RenderTargetVtbl) DrawGlyphRun(
 		uintptr(unsafe.Pointer(foregroundBrush)),
 		uintptr(measuringMode),
 		0)
-	
+
 	return
 }
 
@@ -603,7 +603,7 @@ func (this *ID2D1RenderTargetVtbl) SetTransform(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(transform)),
 		0)
-	
+
 	return
 }
 
@@ -616,7 +616,7 @@ func (this *ID2D1RenderTargetVtbl) GetTransform(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(transform)),
 		0)
-	
+
 	return
 }
 
@@ -629,7 +629,7 @@ func (this *ID2D1RenderTargetVtbl) SetAntialiasMode(
 		ptr.RawPtr(),
 		uintptr(antialiasMode),
 		0)
-	
+
 	return
 }
 
@@ -642,7 +642,7 @@ func (this *ID2D1RenderTargetVtbl) GetAntialiasMode(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -655,7 +655,7 @@ func (this *ID2D1RenderTargetVtbl) SetTextAntialiasMode(
 		ptr.RawPtr(),
 		uintptr(textAntialiasMode),
 		0)
-	
+
 	return
 }
 
@@ -668,7 +668,7 @@ func (this *ID2D1RenderTargetVtbl) GetTextAntialiasMode(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -681,7 +681,7 @@ func (this *ID2D1RenderTargetVtbl) SetTextRenderingParams(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(textRenderingParams)),
 		0)
-	
+
 	return
 }
 
@@ -694,7 +694,7 @@ func (this *ID2D1RenderTargetVtbl) GetTextRenderingParams(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(textRenderingParams)),
 		0)
-	
+
 	return
 }
 
@@ -708,7 +708,7 @@ func (this *ID2D1RenderTargetVtbl) SetTags(
 		ptr.RawPtr(),
 		uintptr(tag1),
 		uintptr(tag2))
-	
+
 	return
 }
 
@@ -722,7 +722,7 @@ func (this *ID2D1RenderTargetVtbl) GetTags(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(tag1)),
 		uintptr(unsafe.Pointer(tag2)))
-	
+
 	return
 }
 
@@ -736,7 +736,7 @@ func (this *ID2D1RenderTargetVtbl) PushLayer(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(layerParameters)),
 		uintptr(unsafe.Pointer(layer)))
-	
+
 	return
 }
 
@@ -748,7 +748,7 @@ func (this *ID2D1RenderTargetVtbl) PopLayer(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -778,7 +778,7 @@ func (this *ID2D1RenderTargetVtbl) SaveDrawingState(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(drawingStateBlock)),
 		0)
-	
+
 	return
 }
 
@@ -791,7 +791,7 @@ func (this *ID2D1RenderTargetVtbl) RestoreDrawingState(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(drawingStateBlock)),
 		0)
-	
+
 	return
 }
 
@@ -805,7 +805,7 @@ func (this *ID2D1RenderTargetVtbl) PushAxisAlignedClip(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(clipRect)),
 		uintptr(antialiasMode))
-	
+
 	return
 }
 
@@ -817,7 +817,7 @@ func (this *ID2D1RenderTargetVtbl) PopAxisAlignedClip(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -830,7 +830,7 @@ func (this *ID2D1RenderTargetVtbl) Clear(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(clearColor)),
 		0)
-	
+
 	return
 }
 
@@ -842,7 +842,7 @@ func (this *ID2D1RenderTargetVtbl) BeginDraw(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -872,7 +872,7 @@ func (this *ID2D1RenderTargetVtbl) GetPixelFormat(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -886,7 +886,7 @@ func (this *ID2D1RenderTargetVtbl) SetDpi(
 		ptr.RawPtr(),
 		uintptr(dpiX),
 		uintptr(dpiY))
-	
+
 	return
 }
 
@@ -900,7 +900,7 @@ func (this *ID2D1RenderTargetVtbl) GetDpi(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(dpiX)),
 		uintptr(unsafe.Pointer(dpiY)))
-	
+
 	return
 }
 
@@ -913,7 +913,7 @@ func (this *ID2D1RenderTargetVtbl) GetSize(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -926,7 +926,7 @@ func (this *ID2D1RenderTargetVtbl) GetPixelSize(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -939,7 +939,7 @@ func (this *ID2D1RenderTargetVtbl) GetMaximumBitmapSize(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -953,20 +953,20 @@ func (this *ID2D1RenderTargetVtbl) IsSupported(
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(renderTargetProperties)),
 		0)
-	
+
 	return
 }
 
 */
 
 // 2cd90698-12e2-11dc-9fed-001143a055f9
-var IID_ID2D1HwndRenderTarget = GUID{ 0x2cd90698, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9} }
+var IID_ID2D1HwndRenderTarget = GUID{0x2cd90698, 0x12e2, 0x11dc, [8]byte{0x9f, 0xed, 0x00, 0x11, 0x43, 0xa0, 0x55, 0xf9}}
 
 type ID2D1HwndRenderTargetVtbl struct {
 	ID2D1RenderTargetVtbl
 	pCheckWindowState uintptr
-	pResize uintptr
-	pGetHwnd uintptr
+	pResize           uintptr
+	pGetHwnd          uintptr
 }
 
 type ID2D1HwndRenderTarget struct {
@@ -999,7 +999,7 @@ func (this *ID2D1HwndRenderTargetVtbl) CheckWindowState(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
@@ -1028,14 +1028,14 @@ func (this *ID2D1HwndRenderTargetVtbl) GetHwnd(
 		ptr.RawPtr(),
 		0,
 		0)
-	
+
 	return
 }
 
 */
 
 // 1c51bc64-de61-46fd-9899-63a5d8f03950
-var IID_ID2D1DCRenderTarget = GUID{ 0x1c51bc64, 0xde61, 0x46fd, [8]byte{0x98, 0x99, 0x63, 0xa5, 0xd8, 0xf0, 0x39, 0x50} }
+var IID_ID2D1DCRenderTarget = GUID{0x1c51bc64, 0xde61, 0x46fd, [8]byte{0x98, 0x99, 0x63, 0xa5, 0xd8, 0xf0, 0x39, 0x50}}
 
 type ID2D1DCRenderTargetVtbl struct {
 	ID2D1RenderTargetVtbl
