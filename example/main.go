@@ -29,6 +29,8 @@ type DemoApp struct {
 	hwnd w32.HWND
 	factory d2d.ID2D1FactoryPtr
 	render_target d2d.ID2D1HwndRenderTargetPtr
+	light_slate_gray_brush d2d.ID2D1SolidColorBrushPtr
+	cornflower_blue d2d.ID2D1SolidColorBrushPtr
 }
 
 func (app *DemoApp) Initialize() {
@@ -76,6 +78,8 @@ func (app *DemoApp) Initialize() {
 func (app *DemoApp) Dispose() {
 	safeRelease(&(app.factory))
 	safeRelease(&(app.render_target))
+	safeRelease(&(app.light_slate_gray_brush))
+	safeRelease(&(app.cornflower_blue))
 }
 
 func (app *DemoApp) RunMessageLoop() {
@@ -102,7 +106,23 @@ func (app *DemoApp) CreateDeviceResources() {
 			app.factory,
 			d2d.RenderTargetProperties(),
 			hwndRenderTargetProperties)
+		var LightSlateGray = d2d.D2D1_COLOR_F { 0x77/255., 0x88/255., 0x99/255., 1 }
+		var CornflowerBlue = d2d.D2D1_COLOR_F { 0x64/255., 0x95/255., 0xED/255., 1 }
+		app.light_slate_gray_brush = app.render_target.CreateSolidColorBrush(
+			app.render_target,
+			&LightSlateGray,
+			nil)
+		app.cornflower_blue = app.render_target.CreateSolidColorBrush(
+			app.render_target,
+			&CornflowerBlue,
+			nil)
 	}
+}
+
+func (app *DemoApp) DiscardDeviceResources() {
+	safeRelease(&(app.render_target))
+	safeRelease(&(app.light_slate_gray_brush))
+	safeRelease(&(app.cornflower_blue))
 }
 
 func (app *DemoApp) WndProc(hwnd w32.HWND, msg uint, wParam, lParam uintptr) uintptr {

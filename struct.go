@@ -127,3 +127,18 @@ type D2D1_PIXEL_FORMAT struct {
 	Format    DXGI_FORMAT
 	AlphaMode D2D1_ALPHA_MODE
 }
+
+type D3DCOLORVALUE struct {
+	R float32
+	G float32
+	B float32
+	A float32
+}
+
+type D2D_COLOR_F D3DCOLORVALUE
+type D2D1_COLOR_F D2D_COLOR_F
+
+type D2D1_BRUSH_PROPERTIES struct {
+	Opacity float32
+	Transform D2D1_MATRIX_3X2_F
+}

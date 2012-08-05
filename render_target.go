@@ -5,6 +5,8 @@
 package d2d
 
 import (
+	"fmt"
+	"syscall"
 	"unsafe"
 )
 
@@ -176,28 +178,31 @@ func (this *ID2D1RenderTargetVtbl) CreateBitmapBrush(
 	}
 	return
 }
+*/
 
 func (this *ID2D1RenderTargetVtbl) CreateSolidColorBrush(
 	ptr ComObjectPtr,
 	color *D2D1_COLOR_F,
-	brushProperties *D2D1_BRUSH_PROPERTIES,
-	solidColorBrush **ID2D1SolidColorBrush)
-	(HRESULT) {
+	brushProperties *D2D1_BRUSH_PROPERTIES) (
+	solidColorBrush ID2D1SolidColorBrushPtr) {
+	var out uintptr
 	var ret, _, _ = syscall.Syscall6(
 		this.pCreateSolidColorBrush,
 		4,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(color)),
 		uintptr(unsafe.Pointer(brushProperties)),
-		uintptr(unsafe.Pointer(solidColorBrush)),
+		uintptr(unsafe.Pointer(&out)),
 		0,
 		0)
 	if ret != S_OK {
 		panic(fmt.Sprintf("Fail to call CreateSolidColorBrush: %#x", ret))
 	}
+	(&solidColorBrush).SetRawPtr(out)
 	return
 }
 
+/*
 func (this *ID2D1RenderTargetVtbl) CreateGradientStopCollection(
 	ptr ComObjectPtr,
 	gradientStops *D2D1_GRADIENT_STOP,
