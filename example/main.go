@@ -212,7 +212,7 @@ func (app *DemoApp) OnRender() {
 	app.render_target.FillRectangle(
 		app.render_target,
 		&rectangle1,
-		app.cornflower_blue)
+		app.light_slate_gray_brush)
 	app.render_target.DrawRectangle(
 		app.render_target,
 		&rectangle2,
