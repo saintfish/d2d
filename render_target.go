@@ -325,23 +325,27 @@ func (this *ID2D1RenderTargetVtbl) CreateMesh(
 	}
 	return
 }
+*/
 
 func (this *ID2D1RenderTargetVtbl) DrawLine(
 	ptr ComObjectPtr,
 	point0 D2D1_POINT_2F,
 	point1 D2D1_POINT_2F,
-	brush *ID2D1Brush,
+	brush ID2D1BrushPtr,
 	strokeWidth float32,
-	strokeStyle *ID2D1StrokeStyle) {
-	var _, _, _ = syscall.Syscall6(
+	strokeStyle ID2D1StrokeStylePtr) {
+	var _, _, _ = syscall.Syscall9(
 		this.pDrawLine,
-		6,
+		8,
 		ptr.RawPtr(),
-		uintptr(point0),
-		uintptr(point1),
-		uintptr(unsafe.Pointer(brush)),
-		uintptr(strokeWidth),
-		uintptr(unsafe.Pointer(strokeStyle)))
+		*(*uintptr)(unsafe.Pointer(&(point0.X))),
+		*(*uintptr)(unsafe.Pointer(&(point0.Y))),
+		*(*uintptr)(unsafe.Pointer(&(point1.X))),
+		*(*uintptr)(unsafe.Pointer(&(point1.Y))),
+		brush.RawPtr(),
+		*(*uintptr)(unsafe.Pointer(&strokeWidth)),
+		strokeStyle.RawPtr(),
+		0)
 
 	return
 }
@@ -349,17 +353,17 @@ func (this *ID2D1RenderTargetVtbl) DrawLine(
 func (this *ID2D1RenderTargetVtbl) DrawRectangle(
 	ptr ComObjectPtr,
 	rect *D2D1_RECT_F,
-	brush *ID2D1Brush,
+	brush ID2D1BrushPtr,
 	strokeWidth float32,
-	strokeStyle *ID2D1StrokeStyle) {
+	strokeStyle ID2D1StrokeStylePtr) {
 	var _, _, _ = syscall.Syscall6(
 		this.pDrawRectangle,
 		5,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(rect)),
-		uintptr(unsafe.Pointer(brush)),
-		uintptr(strokeWidth),
-		uintptr(unsafe.Pointer(strokeStyle)),
+		brush.RawPtr(),
+		*(*uintptr)(unsafe.Pointer(&strokeWidth)),
+		strokeStyle.RawPtr(),
 		0)
 
 	return
@@ -368,17 +372,18 @@ func (this *ID2D1RenderTargetVtbl) DrawRectangle(
 func (this *ID2D1RenderTargetVtbl) FillRectangle(
 	ptr ComObjectPtr,
 	rect *D2D1_RECT_F,
-	brush *ID2D1Brush) {
+	brush ID2D1BrushPtr) {
 	var _, _, _ = syscall.Syscall(
 		this.pFillRectangle,
 		3,
 		ptr.RawPtr(),
 		uintptr(unsafe.Pointer(rect)),
-		uintptr(unsafe.Pointer(brush)))
+		brush.RawPtr())
 
 	return
 }
 
+/*
 func (this *ID2D1RenderTargetVtbl) DrawRoundedRectangle(
 	ptr ComObjectPtr,
 	roundedRect *D2D1_ROUNDED_RECT,
@@ -598,6 +603,7 @@ func (this *ID2D1RenderTargetVtbl) DrawGlyphRun(
 
 	return
 }
+*/
 
 func (this *ID2D1RenderTargetVtbl) SetTransform(
 	ptr ComObjectPtr,
@@ -613,18 +619,18 @@ func (this *ID2D1RenderTargetVtbl) SetTransform(
 }
 
 func (this *ID2D1RenderTargetVtbl) GetTransform(
-	ptr ComObjectPtr,
-	transform *D2D1_MATRIX_3X2_F) {
+	ptr ComObjectPtr) (transform D2D1_MATRIX_3X2_F) {
 	var _, _, _ = syscall.Syscall(
 		this.pGetTransform,
 		2,
 		ptr.RawPtr(),
-		uintptr(unsafe.Pointer(transform)),
+		uintptr(unsafe.Pointer(&transform)),
 		0)
 
 	return
 }
 
+/*
 func (this *ID2D1RenderTargetVtbl) SetAntialiasMode(
 	ptr ComObjectPtr,
 	antialiasMode D2D1_ANTIALIAS_MODE) {
@@ -825,6 +831,7 @@ func (this *ID2D1RenderTargetVtbl) PopAxisAlignedClip(
 
 	return
 }
+*/
 
 func (this *ID2D1RenderTargetVtbl) Clear(
 	ptr ComObjectPtr,
@@ -854,8 +861,7 @@ func (this *ID2D1RenderTargetVtbl) BeginDraw(
 func (this *ID2D1RenderTargetVtbl) EndDraw(
 	ptr ComObjectPtr,
 	tag1 *D2D1_TAG,
-	tag2 *D2D1_TAG)
-	(HRESULT) {
+	tag2 *D2D1_TAG) {
 	var ret, _, _ = syscall.Syscall(
 		this.pEndDraw,
 		3,
@@ -868,6 +874,7 @@ func (this *ID2D1RenderTargetVtbl) EndDraw(
 	return
 }
 
+/*
 func (this *ID2D1RenderTargetVtbl) GetPixelFormat(
 	ptr ComObjectPtr)
 	(D2D1_PIXEL_FORMAT) {
@@ -908,20 +915,20 @@ func (this *ID2D1RenderTargetVtbl) GetDpi(
 
 	return
 }
-
+*/
 func (this *ID2D1RenderTargetVtbl) GetSize(
-	ptr ComObjectPtr)
-	(D2D1_SIZE_F) {
+	ptr ComObjectPtr) (size D2D1_SIZE_F) {
 	var _, _, _ = syscall.Syscall(
 		this.pGetSize,
-		1,
+		2,
 		ptr.RawPtr(),
-		0,
+		uintptr(unsafe.Pointer(&size)),
 		0)
 
 	return
 }
 
+/*
 func (this *ID2D1RenderTargetVtbl) GetPixelSize(
 	ptr ComObjectPtr)
 	(D2D1_SIZE_U) {
@@ -1007,11 +1014,11 @@ func (this *ID2D1HwndRenderTargetVtbl) CheckWindowState(
 
 	return
 }
+*/
 
 func (this *ID2D1HwndRenderTargetVtbl) Resize(
 	ptr ComObjectPtr,
-	pixelSize *D2D1_SIZE_U)
-	(HRESULT) {
+	pixelSize *D2D1_SIZE_U) {
 	var ret, _, _ = syscall.Syscall(
 		this.pResize,
 		2,
@@ -1024,6 +1031,7 @@ func (this *ID2D1HwndRenderTargetVtbl) Resize(
 	return
 }
 
+/*
 func (this *ID2D1HwndRenderTargetVtbl) GetHwnd(
 	ptr ComObjectPtr)
 	(HWND) {

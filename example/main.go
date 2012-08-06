@@ -29,8 +29,8 @@ type DemoApp struct {
 	hwnd w32.HWND
 	factory d2d.ID2D1FactoryPtr
 	render_target d2d.ID2D1HwndRenderTargetPtr
-	light_slate_gray_brush d2d.ID2D1SolidColorBrushPtr
-	cornflower_blue d2d.ID2D1SolidColorBrushPtr
+	light_slate_gray_brush d2d.ID2D1BrushPtr
+	cornflower_blue d2d.ID2D1BrushPtr
 }
 
 func (app *DemoApp) Initialize() {
@@ -108,14 +108,22 @@ func (app *DemoApp) CreateDeviceResources() {
 			hwndRenderTargetProperties)
 		var LightSlateGray = d2d.D2D1_COLOR_F { 0x77/255., 0x88/255., 0x99/255., 1 }
 		var CornflowerBlue = d2d.D2D1_COLOR_F { 0x64/255., 0x95/255., 0xED/255., 1 }
-		app.light_slate_gray_brush = app.render_target.CreateSolidColorBrush(
+		light_slate_gray_brush := app.render_target.CreateSolidColorBrush(
 			app.render_target,
 			&LightSlateGray,
 			nil)
-		app.cornflower_blue = app.render_target.CreateSolidColorBrush(
+		defer light_slate_gray_brush.Release(light_slate_gray_brush)
+		light_slate_gray_brush.QueryInterface(
+			light_slate_gray_brush,
+			&(app.light_slate_gray_brush))
+		cornflower_blue := app.render_target.CreateSolidColorBrush(
 			app.render_target,
 			&CornflowerBlue,
 			nil)
+		defer cornflower_blue.Release(cornflower_blue)
+		cornflower_blue.QueryInterface(
+			cornflower_blue,
+			&(app.cornflower_blue))
 	}
 }
 
@@ -126,7 +134,95 @@ func (app *DemoApp) DiscardDeviceResources() {
 }
 
 func (app *DemoApp) WndProc(hwnd w32.HWND, msg uint, wParam, lParam uintptr) uintptr {
+	if hwnd != app.hwnd {
+		return w32.DefWindowProc(hwnd, msg, wParam, lParam)
+	}
+	switch msg {
+	case w32.WM_SIZE:
+		width := w32.LOWORD(uint(lParam))
+		height := w32.HIWORD(uint(lParam))
+		app.OnResize(width, height)
+		return 0
+	case w32.WM_DISPLAYCHANGE:
+		w32.InvalidateRect(app.hwnd, nil, false)
+		return 0
+	case w32.WM_PAINT:
+		app.OnRender()
+		w32.ValidateRect(app.hwnd, nil)
+		return 0
+	case w32.WM_DESTROY:
+		w32.PostQuitMessage(0)
+		return 1
+	}
+
 	return w32.DefWindowProc(hwnd, msg, wParam, lParam)
+}
+
+func (app *DemoApp) OnResize(w, h uint16) {
+	if app.render_target.RawPtr() != 0 {
+		app.render_target.Resize(
+			app.render_target,
+			&d2d.D2D1_SIZE_U { uint32(w), uint32(h) })
+	}
+}
+
+func (app *DemoApp) OnRender() {
+	app.CreateDeviceResources()
+	app.render_target.BeginDraw(app.render_target)
+	var identityMatrix = d2d.D2D1_MATRIX_3X2_F {
+		A11 : 1.,
+		A22 : 1.,
+	}
+	app.render_target.SetTransform(app.render_target, &identityMatrix)
+	var White = d2d.D2D1_COLOR_F { 1, 1, 1, 1 }
+	app.render_target.Clear(app.render_target, &White)
+	size := app.render_target.GetSize(app.render_target)
+	width := int(size.Width)
+	height := int(size.Height)
+	for x := 0; x < width; x += 10 {
+		app.render_target.DrawLine(
+			app.render_target,
+			d2d.D2D1_POINT_2F { float32(x), 0 },
+			d2d.D2D1_POINT_2F { float32(x), size.Height },
+			app.light_slate_gray_brush,
+			0.5,
+			d2d.ID2D1StrokeStylePtr{})
+	}
+	for y := 0; y < height; y += 10 {
+		app.render_target.DrawLine(
+			app.render_target,
+			d2d.D2D1_POINT_2F { 0, float32(y) },
+			d2d.D2D1_POINT_2F { size.Width, float32(y) },
+			app.light_slate_gray_brush,
+			0.5,
+			d2d.ID2D1StrokeStylePtr{})
+	}
+	rectangle1 := d2d.D2D1_RECT_F {
+		size.Width / 2 - 50,
+		size.Height / 2 - 50,
+		size.Width / 2 + 50,
+		size.Height / 2 + 50,
+	}
+	rectangle2 := d2d.D2D1_RECT_F {
+		size.Width / 2 - 100,
+		size.Height / 2 - 100,
+		size.Width / 2 + 100,
+		size.Height / 2 + 100,
+	}
+	app.render_target.FillRectangle(
+		app.render_target,
+		&rectangle1,
+		app.cornflower_blue)
+	app.render_target.DrawRectangle(
+		app.render_target,
+		&rectangle2,
+		app.cornflower_blue,
+		1,
+		d2d.ID2D1StrokeStylePtr{})
+	app.render_target.EndDraw(app.render_target, nil, nil)
+	if r := recover(); r != nil {
+		app.DiscardDeviceResources()
+	}
 }
 
 func main() {
